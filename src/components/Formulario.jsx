@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import  PropTypes  from 'prop-types';
 
-const url= "http://127.10.10.10:5011/login"
-
-
 export default function Formulary({usuario, contraseña}) {
     const [username, setUsername] = useState(usuario);
     const [password, setPassword] = useState(contraseña);
@@ -14,7 +11,7 @@ export default function Formulary({usuario, contraseña}) {
         setUsername(usuario);
         setPassword(contraseña);
         
-        const res = await fetch("http://127.24.43.221:5076/login", {
+        const res = await fetch("http://127.24.43.281:5056/login", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -37,7 +34,7 @@ export default function Formulary({usuario, contraseña}) {
         setUsername(user);
         setPassword(password);
 
-        const res = await fetch("http://127.24.43.221:5076/register", {
+        const res = await fetch("http://127.24.43.281:5056/register", {
             method: "POST",
             headers: {
             "Content-Type": "applSication/json",
