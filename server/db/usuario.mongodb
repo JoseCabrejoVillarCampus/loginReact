@@ -2,10 +2,42 @@ use("db_log");
 db.usuarios.insertMany([
     {
         nombre: "Jose Cabrejo",
-        password: "onepiece"
+        password: "onepiece",
+        rol:[1]
     },
     {
         nombre: "Brian Melo",
-        password: "luffy"
+        password: "luffy",
+        rol:[2]
     }
 ])
+use("db_log");
+db.createCollection("usuarios", {
+            validator: {
+                $jsonSchema: {
+                    bsonType: "object",
+                    additionalProperties: false,
+                    required: ["nombre", "password", "rol"],
+                    properties: {
+                        _id: {
+                            bsonType: "objectId",
+                        },
+                        nombre: {
+                            bsonType: "string",
+                            description: "username is required",
+                        },
+                        password: {
+                            bsonType: "string",
+                            description: "Password is required",
+                        },
+                        rol: {
+                            bsonType: "array",
+                            description: "role",
+                            items: {
+                                bsonType: "int",
+                            },
+                        }
+                    },
+                },
+            },
+});

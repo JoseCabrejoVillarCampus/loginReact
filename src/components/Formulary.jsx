@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import  PropTypes  from 'prop-types';
+import React, {useState, useEffect} from 'react'
+import axios from 'axios';
 
 export default function Formulary({usuario, contraseña}) {
     const [username, setUsername] = useState(usuario);
@@ -10,21 +10,17 @@ export default function Formulary({usuario, contraseña}) {
         const contraseña = document.querySelector('#contraseña').value
         setUsername(usuario);
         setPassword(contraseña);
-        
-        const res = await fetch("http://127.43.34.121:5056/login", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username,
+    
+        await axios.post("http://127.43.34.121:5056/login", {
+            username,
             password,
-            })
         });
-        if(!res.ok) {
-            alert("Usuario o contraseña incorrectos!!")
-        } else {
+        
+
+        if(res.status === 200) {
             alert("Logueado correctamente :)")
+        } else {
+            alert("Usuario o contraseña incorrectos!!")
         }
     }
 
@@ -39,4 +35,8 @@ export default function Formulary({usuario, contraseña}) {
         <button onClick={handleSubmit}>Entrar</button>
         </>
     )
+    useEffect(() => {
+        setUsername('');
+        setPassword('');
+    }, []);
 }

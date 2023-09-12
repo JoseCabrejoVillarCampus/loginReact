@@ -1,12 +1,12 @@
 import { coneccion } from "../../db/atlas.js";
 
 let db = await coneccion();
-let usuario = db.collection("usuarios");
+let usuarios = db.collection("usuarios");
 
 export const getUsuario = async (req, res) => {
     try {
         const {username, password} = req.body;
-        const user = await usuario.findOne(
+        const user = await usuarios.findOne(
             {
                 nombre: username,
                 password
