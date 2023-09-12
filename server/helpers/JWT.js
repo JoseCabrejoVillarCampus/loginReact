@@ -21,7 +21,8 @@ const crearToken = async (req, res, next) => {
         .setExpirationTime('3h')
         .sign(encoder.encode(process.env.JWT_PRIVATE_KEY));
     
-    res.status(200).send({token: jwtConstructor});
+        res.status(200).json({ token: jwtConstructor });
+
 };
 
 const validarToken = async (req, token) => {

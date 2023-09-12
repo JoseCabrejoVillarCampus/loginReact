@@ -6,8 +6,7 @@ import { getUsuario } from "../api/version1/usuario.js";
 
 const appUsuario = Router();
 
+appUsuario.post('/login', crearToken ,getUsuario ); 
 appUsuario.use(limitLogin(), passPortHelper.authenticate("bearer", {session: false}));
-
-appUsuario.post('/login', crearToken ,getUsuario );
 
 export {appUsuario};
