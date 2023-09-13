@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose"
 import {coneccion} from "../db/atlas.js";
 import { ObjectId } from "mongodb";
 import dotenv from 'dotenv';
+import { token } from "morgan";
 dotenv.config("../");
 
 const conexionDB = await coneccion();
@@ -25,6 +26,7 @@ const crearToken = async (req, res, next) => {
             status: 200,
             token: jwtConstructor,
         };
+        console.log("token", jwtConstructor);
         next();
 };
 
@@ -41,6 +43,7 @@ const validarToken = async (req, token) => {
             }
         );
         let {_id, ...usuarios} = res;
+        console.log("res",res);
         return usuarios;
     } catch (error) {
         return false;
