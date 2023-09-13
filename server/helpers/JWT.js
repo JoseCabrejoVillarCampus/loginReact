@@ -9,8 +9,8 @@ const conexionDB = await coneccion();
 const crearToken = async (req, res, next) => {
     console.log(req.body);
     if (Object.keys(req.body).length === 0) return res.status(400).send({message: "Datos no enviados"});
-    const result = await conexionDB.collection('usuarios').findOne(req.body);
-    console.log(result);
+    const result = await conexionDB.collection('usuarios').findOne({"nombre": req.body.usuario});
+    console.log("result", result);
     if (!result) return res.status(401).send({message: "Usuario no encontrado"});
     
     const encoder = new TextEncoder();
@@ -21,8 +21,11 @@ const crearToken = async (req, res, next) => {
         .setExpirationTime('3h')
         .sign(encoder.encode(process.env.JWT_PRIVATE_KEY));
     
-        res.status(200).json({ token: jwtConstructor });
-
+        req.data = {
+            status: 200,
+            token: jwtConstructor,
+        };
+        next();
 };
 
 const validarToken = async (req, token) => {
@@ -34,8 +37,7 @@ const validarToken = async (req, token) => {
         );
         let res = await conexionDB.collection('usuarios').findOne(
             {
-                _id:new ObjectId(jwtData.payload.id),
-                [`permisos.${req.baseUrl}`]: `${req.headers["accept-version"]}`
+                _id:new ObjectId(jwtData.payload.id)
             }
         );
         let {_id, ...usuarios} = res;
@@ -44,25 +46,7 @@ const validarToken = async (req, token) => {
         return false;
     }
 }
-async function generateJWTToken(userId) {
-    try {
-        const jwt = new SignJWT();
-
-        jwt
-            .claim("sub", userId)  
-            .setProtectedHeader({ alg: 'HS256' })  
-            .setIssuedAt()  
-            .setExpirationTime("3h");  
-        const token = await jwt.sign(process.env.JWT_PRIVATE_KEY);
-
-        return token;
-    } catch (error) {
-        console.error("Error al generar el token JWT:", error);
-        throw error;
-    }
-}
 export {
     crearToken,
-    validarToken,
-    generateJWTToken
+    validarToken
 }
