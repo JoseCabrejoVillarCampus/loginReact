@@ -44,7 +44,25 @@ const validarToken = async (req, token) => {
         return false;
     }
 }
+async function generateJWTToken(userId) {
+    try {
+        const jwt = new SignJWT();
+
+        jwt
+            .claim("sub", userId)  
+            .setProtectedHeader({ alg: 'HS256' })  
+            .setIssuedAt()  
+            .setExpirationTime("3h");  
+        const token = await jwt.sign(process.env.JWT_PRIVATE_KEY);
+
+        return token;
+    } catch (error) {
+        console.error("Error al generar el token JWT:", error);
+        throw error;
+    }
+}
 export {
     crearToken,
-    validarToken
+    validarToken,
+    generateJWTToken
 }
