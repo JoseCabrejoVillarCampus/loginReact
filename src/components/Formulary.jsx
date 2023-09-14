@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Formulary({ usuario, contraseña }) {
     const [username, setUsername] = useState(usuario);
     const [password, setPassword] = useState(contraseña);
     const [token, setToken] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         const usuario = document.querySelector('#usuario').value;
         const contraseña = document.querySelector('#contraseña').value;
         setUsername(usuario);
         setPassword(contraseña);
-        console.log(usuario);
-        console.log(contraseña);
     
         try {
             const response = await fetch("http://127.43.34.121:5056/login", {
@@ -29,9 +29,8 @@ export default function Formulary({ usuario, contraseña }) {
                 const data = await response.json(); 
                 const authToken = data.token; 
                 setToken(authToken);
+                navigate("/home")
                 
-                
-                alert("Bienvenidoooo!!");
             } else {
                 alert("Nombre o contraseña erroneos!!");
             }

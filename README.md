@@ -68,7 +68,6 @@ Ahora instalaremos el resto de as dependencias uasando el comando:
     npm install
 ```
 
-<img src="./img/c.png">
 
 Ahora, abriremos dos consolas para ejecutar dos comando diferentes
 
