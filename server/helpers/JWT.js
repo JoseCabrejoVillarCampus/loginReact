@@ -8,10 +8,8 @@ dotenv.config("../");
 const conexionDB = await coneccion();
 
 const crearToken = async (req, res, next) => {
-    console.log(req.body);
     if (Object.keys(req.body).length === 0) return res.status(400).send({message: "Datos no enviados"});
     const result = await conexionDB.collection('usuarios').findOne({"nombre": req.body.usuario});
-    console.log("result", result);
     if (!result) return res.status(401).send({message: "Usuario no encontrado"});
     
     const encoder = new TextEncoder();
@@ -26,7 +24,6 @@ const crearToken = async (req, res, next) => {
             status: 200,
             token: jwtConstructor,
         };
-        console.log("token", jwtConstructor);
         next();
 };
 

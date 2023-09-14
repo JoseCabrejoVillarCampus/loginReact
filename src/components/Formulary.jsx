@@ -25,14 +25,15 @@ export default function Formulary({ usuario, contraseña }) {
                 }),
             });
     
-            if (response.status === 200) {
-                console.log(response);
+            if (response.ok) {
                 const data = await response.json(); 
                 const authToken = data.token; 
                 setToken(authToken);
-                alert("Logueado correctamente :)");
+                
+                
+                alert("Bienvenidoooo!!");
             } else {
-                alert("Usuario o contraseña incorrectos!!");
+                alert("Nombre o contraseña erroneos!!");
             }
         } catch (error) {
             console.error(error);
